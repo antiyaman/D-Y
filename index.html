@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<title>🤍 Sana Küçük Bir Hediye</title>
+
+<style>
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: #000;
+  color: #fff;
+  font-family: "Segoe UI", Arial, sans-serif;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  overflow: hidden;
+  text-align: center;
+}
+
+#text {
+  font-size: 24px;
+  max-width: 80%;
+  line-height: 1.6;
+  margin-bottom: 35px;
+  transition: opacity 0.5s;
+}
+
+button {
+  padding: 15px 40px;
+  font-size: 18px;
+  border: 2px solid white;
+  background: transparent;
+  color: white;
+  border-radius: 40px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+button:hover {
+  background: white;
+  color: black;
+}
+
+#countdown {
+  font-size: 22px;
+  margin-top: 25px;
+  letter-spacing: 1px;
+}
+
+/* 🤍 BEYAZ KALPLER */
+.heart {
+  position: fixed;
+  bottom: -20px;
+  color: white;
+  font-size: 18px;
+  animation: rise 7s linear infinite;
+  opacity: 0.8;
+}
+
+@keyframes rise {
+  0% {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-110vh) scale(1.6);
+    opacity: 0;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div id="text">Merhaba aşkım 🤍</div>
+<button id="btn" onclick="nextText()">Devam</button>
+<div id="countdown"></div>
+
+<audio id="music">
+  <source src="muzik.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+const texts = [
+  "Umarım hediyeni beğenmişsindir sevgilim",
+  "Bunu sana küçük bir gülümseme olsun diye hazırladım",
+  "Tanışmamız tesadüf değildi",
+  "Anlayacaksın aşkım",
+  "Kıbrıs sana sahipken seni kıskanmamak elimde değil",
+  "Sen benim için o kadar değerlisin ki",
+  "Sadece kokunu bile almak için düşünmeden ölürüm",
+  "Benim için çok özelsin ve hep öyle kalacaksın",
+  "Bugün sevgililer günü olsa da",
+  "Bizim için hep sevgililer günü",
+  "İyi ki varsın 🤍",
+  "Çok az kaldı…",
+  "9 hafta sonra beraberiz, nefesim nefesine",
+  "9 hafta sonra görüşmek üzere Denizim",
+  "Seninle buluşmamıza haftalar kaldı"
+];
+
+let index = 0;
+let musicStarted = false;
+
+function nextText() {
+  if (!musicStarted) {
+    document.getElementById("music").play();
+    musicStarted = true;
+  }
+
+  if (index < texts.length) {
+    const textEl = document.getElementById("text");
+    textEl.style.opacity = 0;
+    setTimeout(() => {
+      textEl.innerText = texts[index];
+      textEl.style.opacity = 1;
+      index++;
+    }, 300);
+  } else {
+    document.getElementById("btn").style.display = "none";
+    startCountdown();
+    startHearts();
+  }
+}
+
+/* ⏳ 9 HAFTALIK GERİ SAYIM */
+function startCountdown() {
+  const targetDate = new Date();
+  targetDate.setDate(targetDate.getDate() + 63); // 9 hafta
+
+  setInterval(() => {
+    const now = new Date();
+    const diff = targetDate - now;
+
+    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+    const minutes = Math.floor((diff / (1000 * 60)) % 60);
+    const seconds = Math.floor((diff / 1000) % 60);
+
+    document.getElementById("countdown").innerText =
+      `${days} gün ${hours} saat ${minutes} dakika ${seconds} saniye`;
+  }, 1000);
+}
+
+/* 🤍 KALP ANİMASYONU */
+function startHearts() {
+  setInterval(() => {
+    const heart = document.createElement("div");
+    heart.className = "heart";
+    heart.innerText = "🤍";
+    heart.style.left = Math.random() * 100 + "vw";
+    heart.style.fontSize = (Math.random() * 15 + 15) + "px";
+    document.body.appendChild(heart);
+
+    setTimeout(() => heart.remove(), 7000);
+  }, 400);
+}
+</script>
+
+</body>
+</html>
